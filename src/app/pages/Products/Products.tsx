@@ -10,6 +10,7 @@ import useNewsStore from "@/shared/stores/news.store";
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import ProductCard from "@/components/ProductCard/ProductCard";
+import CategorySelector from "@/components/CategorySelector/CategorySelector";
 import { Link, useNavigate } from "react-router";
 import {
   Breadcrumb,
@@ -20,6 +21,7 @@ import {
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
 import { useNewsArticles } from "@/services/hooks/useNewsArticles";
+import SearchField from "@/components/SearchField/SearchField";
 
 const Products: FC = () => {
   const { loading, error } = useNewsData();
@@ -74,8 +76,10 @@ const Products: FC = () => {
             >
               Favorites
             </Button>
+            <CategorySelector />
           </div>
         </div>
+        <SearchField />
         <Button variant='outline' onClick={() => navigate("/create-product")}>
           Create New Article
         </Button>
