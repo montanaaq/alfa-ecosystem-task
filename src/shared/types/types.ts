@@ -10,6 +10,11 @@ export interface IArticle {
   urlToImage?: string | null;
   publishedAt?: Date;
   content?: string | null;
+  category?: string | null;
+}
+
+export interface ICategory {
+  category: "business" | "entertainment" | "general" | "health" | "science" | "sports" | "technology";
 }
 
 export interface INews {

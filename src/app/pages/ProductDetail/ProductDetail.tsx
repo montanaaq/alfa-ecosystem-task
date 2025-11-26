@@ -8,7 +8,7 @@ import { truncateWords } from "@/lib/utils";
 
 import { useNewsArticles } from "@/services/hooks/useNewsArticles";
 
-import useNewsStore from "@/shared/stores/news.store";
+import { useFavoritesStore } from "@/shared/stores/favorites.store";
 
 import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/ProductCard/ProductCard";
@@ -26,7 +26,7 @@ const ProductDetail: FC = () => {
   const navigate = useNavigate();
 
   const { visibleArticles: allArticles } = useNewsArticles();
-  const toggleFavorite = useNewsStore((s) => s.toggleFavorite);
+  const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite);
 
   if (!encodedUrl) {
     return (

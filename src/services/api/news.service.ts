@@ -42,6 +42,3 @@ export const getTopHeadlines = (): Promise<INews> =>
 
 export const getCategoryHeadlines = (category: string): Promise<INews> =>
   request<INews>("/top-headlines", { params: { country: "us", category } });
-
-export const searchEverythingByQuery = (query: string): Promise<INews> =>
-  request<INews>("/everything", { params: { q: query, language: "ru" } });

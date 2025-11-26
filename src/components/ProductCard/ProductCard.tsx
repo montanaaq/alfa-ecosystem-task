@@ -12,7 +12,7 @@ import {
   CardDescription,
   CardContent
 } from "@/components/ui/card";
-import useNewsStore from "@/shared/stores/news.store";
+import { useFavoritesStore } from "@/shared/stores/favorites.store";
 
 interface ProductCardProps {
   article: IArticle;
@@ -27,7 +27,7 @@ const ProductCard: FC<ProductCardProps> = ({
 }) => {
   const navigate = useNavigate();
 
-  const favorites = useNewsStore((s) => s.favorites);
+  const favorites = useFavoritesStore((s) => s.favorites);
 
   function onOpenArticle(url: string) {
     const encoded = encodeURIComponent(url);

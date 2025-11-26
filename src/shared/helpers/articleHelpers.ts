@@ -14,6 +14,7 @@ export function createArticleFromFormData(
     description: data.description,
     url: `custom-${Date.now()}`,
     urlToImage: data.urlToImage,
+    category: data.category,
     publishedAt: new Date(),
     content: data.description
   };

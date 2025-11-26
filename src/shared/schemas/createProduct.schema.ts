@@ -17,7 +17,12 @@ export const createProductSchema = z.object({
     .string()
     .min(1, "Image URL is required")
     .url("Must be a valid URL")
-    .trim()
+    .trim(),
+
+  category: z
+  .string()
+  .min(1, "Category is required")
+  .trim()
 });
 
 export type CreateProductFormData = z.infer<typeof createProductSchema>;

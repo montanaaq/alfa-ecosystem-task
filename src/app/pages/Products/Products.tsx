@@ -1,17 +1,21 @@
 import { type FC, type MouseEvent } from "react";
 
-import PageLayout from "../../layouts/PageLayout";
+import { useNavigate, Link } from "react-router";
 
-import useNewsData from "@/services/hooks/useNewsData";
+import PageLayout from "@/app/layouts/PageLayout";
+
+import { useNewsArticles } from "@/services/hooks/useNewsArticles";
 
 import type { IArticle } from "@/shared/types/types";
-import useNewsStore from "@/shared/stores/news.store";
+import { useFiltersStore } from "@/shared/stores/filters.store";
+import { useFavoritesStore } from "@/shared/stores/favorites.store";
+import { useUserArticlesStore } from "@/shared/stores/user-articles.store";
 
 import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import ProductCard from "@/components/ProductCard/ProductCard";
+import SearchField from "@/components/SearchField/SearchField";
 import CategorySelector from "@/components/CategorySelector/CategorySelector";
-import { Link, useNavigate } from "react-router";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -20,19 +24,16 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator
 } from "@/components/ui/breadcrumb";
-import { useNewsArticles } from "@/services/hooks/useNewsArticles";
-import SearchField from "@/components/SearchField/SearchField";
 
 const Products: FC = () => {
-  const { loading, error } = useNewsData();
+  const { visibleArticles, isLoading, error } = useNewsArticles();
   const navigate = useNavigate();
 
-  const filter = useNewsStore((s) => s.filter);
-  const setFilter = useNewsStore((s) => s.setFilter);
-  const toggleFavorite = useNewsStore((s) => s.toggleFavorite);
-  const removeArticle = useNewsStore((s) => s.removeArticle);
+  const filter = useFiltersStore((s) => s.filter);
+  const setFilter = useFiltersStore((s) => s.setFilter);
 
-  const { visibleArticles } = useNewsArticles();
+  const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite);
+  const removeArticle = useUserArticlesStore((s) => s.removeArticle);
 
   function onDelete(e: MouseEvent, url: string) {
     e.stopPropagation();
@@ -76,16 +77,20 @@ const Products: FC = () => {
             >
               Favorites
             </Button>
-            <CategorySelector />
           </div>
         </div>
         <SearchField />
-        <Button variant='outline' onClick={() => navigate("/create-product")}>
+        <CategorySelector />
+        <Button
+          className='mx-4'
+          variant='outline'
+          onClick={() => navigate("/create-product")}
+        >
           Create New Article
         </Button>
       </div>
 
-      {loading && <Spinner />}
+      {isLoading && <Spinner />}
       {error && (
         <div className='rounded bg-red-100 p-4 text-red-700'>
           Error: {error.message}
@@ -103,7 +108,7 @@ const Products: FC = () => {
         ))}
       </div>
 
-      {!loading && visibleArticles.length === 0 && (
+      {!isLoading && visibleArticles.length === 0 && (
         <div className='text-center text-gray-500 mt-6'>
           {filter === "favorites"
             ? "No favorite articles yet. Add some by clicking the heart icon!"

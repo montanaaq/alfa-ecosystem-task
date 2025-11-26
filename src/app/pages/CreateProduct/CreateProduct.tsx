@@ -1,18 +1,29 @@
 import { type FC } from "react";
+
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, Link } from "react-router";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import PageLayout from "../../layouts/PageLayout";
-import useNewsStore from "@/shared/stores/news.store";
+
+import { CATEGORIES } from "@/shared/constants/categories.const";
+import { useUserArticlesStore } from "@/shared/stores/user-articles.store";
+import { createArticleFromFormData } from "@/shared/helpers/articleHelpers";
 import {
   createProductSchema,
   type CreateProductFormData
 } from "@/shared/schemas/createProduct.schema";
-import { createArticleFromFormData } from "@/shared/helpers/articleHelpers";
-import { TextInputField, TextAreaField } from "@/components/FormFields";
 
 import { Button } from "@/components/ui/button";
+import { TextInputField, TextAreaField } from "@/components/FormFields";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectGroup,
+  SelectItem
+} from "@/components/ui/select";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,16 +35,20 @@ import {
 
 const CreateProduct: FC = () => {
   const navigate = useNavigate();
-  const addArticle = useNewsStore((s) => s.addArticle);
+  const addArticle = useUserArticlesStore((s) => s.addArticle);
 
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors, isSubmitting }
   } = useForm<CreateProductFormData>({
     resolver: zodResolver(createProductSchema),
     mode: "onBlur"
   });
+
+  const category = watch("category");
 
   const onSubmit = async (data: CreateProductFormData) => {
     const newArticle = createArticleFromFormData(data);
@@ -72,6 +87,37 @@ const CreateProduct: FC = () => {
         </div>
 
         <div className='space-y-6'>
+          <div className='flex flex-col gap-2'>
+            <label htmlFor='category' className='text-sm font-medium'>
+              Category
+            </label>
+
+            <Select
+              value={category}
+              onValueChange={(val) =>
+                setValue("category", val, { shouldValidate: true })
+              }
+            >
+              <SelectTrigger className='w-full'>
+                <SelectValue placeholder='Select category' />
+              </SelectTrigger>
+
+              <SelectContent>
+                <SelectGroup>
+                  {CATEGORIES.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      {c.charAt(0).toUpperCase() + c.slice(1)}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+
+            {errors.category && (
+              <p className='text-sm text-red-500'>{errors.category.message}</p>
+            )}
+          </div>
+
           <TextInputField
             id='title'
             label='Title'
@@ -109,6 +155,7 @@ const CreateProduct: FC = () => {
             >
               {isSubmitting ? "Creating..." : "Create Article"}
             </Button>
+
             <Button
               variant='outline'
               onClick={() => navigate("/products")}
