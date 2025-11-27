@@ -1,5 +1,10 @@
 import { memo, type FC } from "react";
 
+import { camelCaseFormat } from "@/lib/utils";
+
+import { useNewsStore } from "@/shared/stores/news.store";
+import { CATEGORIES } from "@/shared/constants/categories.const";
+
 import {
   Select,
   SelectContent,
@@ -7,28 +12,43 @@ import {
   SelectTrigger,
   SelectValue
 } from "../ui/select";
-import { useNewsStore } from "@/shared/stores/news.store";
 
-const CategorySelector: FC = memo(() => {
-  const category = useNewsStore((s) => s.category);
-  const setCategory = useNewsStore((s) => s.setCategory);
+interface CategorySelectorProps {
+  value?: string;
+  onValueChange?: (value: string) => void;
+  useStore?: boolean;
+}
 
-  return (
-    <Select onValueChange={(e) => setCategory(e)} value={category || "general"}>
-      <SelectTrigger className='w-[180px]'>
-        <SelectValue placeholder='Category' />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectItem value='general'>General</SelectItem>
-        <SelectItem value='business'>Business</SelectItem>
-        <SelectItem value='entertainment'>Entertainment</SelectItem>
-        <SelectItem value='health'>Health</SelectItem>
-        <SelectItem value='science'>Science</SelectItem>
-        <SelectItem value='sports'>Sports</SelectItem>
-        <SelectItem value='technology'>Technology</SelectItem>
-      </SelectContent>
-    </Select>
-  );
-});
+const CategorySelector: FC<CategorySelectorProps> = memo(
+  ({
+    value: externalValue,
+    onValueChange: externalOnChange,
+    useStore = true
+  }) => {
+    const storeCategory = useNewsStore((s) => s.category);
+    const setStoreCategory = useNewsStore((s) => s.setCategory);
+
+    const category = useStore ? storeCategory : externalValue;
+    const setCategory = useStore ? setStoreCategory : externalOnChange;
+
+    return (
+      <Select
+        onValueChange={(e) => setCategory?.(e)}
+        value={category || "general"}
+      >
+        <SelectTrigger className='w-full'>
+          <SelectValue placeholder='Category' />
+        </SelectTrigger>
+        <SelectContent>
+          {CATEGORIES.map((c) => (
+            <SelectItem key={c} value={c}>
+              {camelCaseFormat(c)}
+            </SelectItem>
+          ))}
+        </SelectContent>
+      </Select>
+    );
+  }
+);
 
 export default CategorySelector;

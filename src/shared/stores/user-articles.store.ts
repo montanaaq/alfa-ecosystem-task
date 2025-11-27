@@ -7,8 +7,11 @@ interface UserArticlesState {
   removed: Record<string, boolean>;
 
   addArticle: (article: IArticle) => void;
+  updateArticle: (url: string, updatedArticle: IArticle) => void;
   removeArticle: (url: string) => void;
   isRemoved: (url: string) => boolean;
+
+  getArticleByUrl: (url: string) => IArticle | undefined;
 }
 
 export const useUserArticlesStore = create<UserArticlesState>()(
@@ -23,6 +26,14 @@ export const useUserArticlesStore = create<UserArticlesState>()(
         }));
       },
 
+      updateArticle: (url: string, updatedArticle: IArticle) => {
+        set((state) => ({
+          userArticles: state.userArticles.map((article) =>
+            article.url === url ? updatedArticle : article
+          )
+        }));
+      },
+
       removeArticle: (url: string) => {
         set((state) => ({
           removed: { ...state.removed, [url]: true }
@@ -31,6 +42,10 @@ export const useUserArticlesStore = create<UserArticlesState>()(
 
       isRemoved: (url: string) => {
         return get().removed[url] === true;
+      },
+
+      getArticleByUrl: (url: string) => {
+        return get().userArticles.find((article) => article.url === url);
       }
     }),
     {

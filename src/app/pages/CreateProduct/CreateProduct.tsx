@@ -1,12 +1,11 @@
 import { type FC } from "react";
 
 import { useForm } from "react-hook-form";
-import { useNavigate, Link } from "react-router";
+import { useNavigate } from "react-router";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import PageLayout from "../../layouts/PageLayout";
 
-import { CATEGORIES } from "@/shared/constants/categories.const";
 import { useUserArticlesStore } from "@/shared/stores/user-articles.store";
 import { createArticleFromFormData } from "@/shared/helpers/articleHelpers";
 import {
@@ -15,23 +14,9 @@ import {
 } from "@/shared/schemas/createProduct.schema";
 
 import { Button } from "@/components/ui/button";
+import BreadcrumbNav from "@/components/BreadcrumbNav/BreadcrumbNav";
 import { TextInputField, TextAreaField } from "@/components/FormFields";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectGroup,
-  SelectItem
-} from "@/components/ui/select";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from "@/components/ui/breadcrumb";
+import CategorySelector from "@/components/CategorySelector/CategorySelector";
 
 const CreateProduct: FC = () => {
   const navigate = useNavigate();
@@ -58,66 +43,39 @@ const CreateProduct: FC = () => {
 
   return (
     <PageLayout>
-      <Breadcrumb className='mb-6'>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link to='/'>Home</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link to='/products'>Products</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Create Product</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <BreadcrumbNav
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Products", href: "/products" },
+          { label: "Create Product" }
+        ]}
+      />
 
-      <div className='max-w-2xl mx-auto'>
+      <div className='max-w-2xl mx-auto flex flex-col gap-4'>
         <div className='mb-6'>
           <h2 className='text-2xl font-semibold mb-2'>Create New Article</h2>
           <p className='text-gray-600'>
             Fill in the form to create a new article
           </p>
         </div>
+        <div className='flex flex-col gap-2'>
+          <label htmlFor='category' className='text-sm font-medium'>
+            Category
+          </label>
 
-        <div className='space-y-6'>
-          <div className='flex flex-col gap-2'>
-            <label htmlFor='category' className='text-sm font-medium'>
-              Category
-            </label>
+          <CategorySelector
+            useStore={false}
+            value={category}
+            onValueChange={(val) =>
+              setValue("category", val, { shouldValidate: true })
+            }
+          />
 
-            <Select
-              value={category}
-              onValueChange={(val) =>
-                setValue("category", val, { shouldValidate: true })
-              }
-            >
-              <SelectTrigger className='w-full'>
-                <SelectValue placeholder='Select category' />
-              </SelectTrigger>
-
-              <SelectContent>
-                <SelectGroup>
-                  {CATEGORIES.map((c) => (
-                    <SelectItem key={c} value={c}>
-                      {c.charAt(0).toUpperCase() + c.slice(1)}
-                    </SelectItem>
-                  ))}
-                </SelectGroup>
-              </SelectContent>
-            </Select>
-
-            {errors.category && (
-              <p className='text-sm text-red-500'>{errors.category.message}</p>
-            )}
-          </div>
-
+          {errors.category && (
+            <p className='text-sm text-red-500'>{errors.category.message}</p>
+          )}
+        </div>
+        <div className='flex flex-col gap-4'>
           <TextInputField
             id='title'
             label='Title'

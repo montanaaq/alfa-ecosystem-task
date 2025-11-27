@@ -26,6 +26,7 @@ const ProductDetail = lazy(
 const CreateProduct = lazy(
   () => import("@/app/pages/CreateProduct/CreateProduct")
 );
+const ProductEdit = lazy(() => import("@/app/pages/ProductEdit/ProductEdit"));
 
 export const routes: RouteObject[] = [
   {
@@ -43,5 +44,9 @@ export const routes: RouteObject[] = [
   {
     path: "/create-product",
     element: withSuspense(CreateProduct)
+  },
+  {
+    path: "/products/edit/:url",
+    element: withSuspense(ProductEdit)
   }
 ];

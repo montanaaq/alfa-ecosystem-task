@@ -1,6 +1,6 @@
 import { type FC, type MouseEvent } from "react";
 
-import { useParams, useNavigate, Link } from "react-router";
+import { useParams, useNavigate } from "react-router";
 
 import PageLayout from "../../layouts/PageLayout";
 
@@ -12,14 +12,7 @@ import { useFavoritesStore } from "@/shared/stores/favorites.store";
 
 import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/ProductCard/ProductCard";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from "@/components/ui/breadcrumb";
+import BreadcrumbNav from "@/components/BreadcrumbNav/BreadcrumbNav";
 
 const ProductDetail: FC = () => {
   const { url: encodedUrl } = useParams<{ url: string }>();
@@ -60,25 +53,13 @@ const ProductDetail: FC = () => {
 
   return (
     <PageLayout>
-      <Breadcrumb className='mb-6'>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link to='/'>Home</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link to='/products'>News</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>{truncateWords(article.title)}</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <BreadcrumbNav
+        items={[
+          { label: "Home", href: "/" },
+          { label: "Products", href: "/products" },
+          { label: truncateWords(article.title) }
+        ]}
+      />
 
       <div className='max-w-2xl mx-auto mb-8'>
         <ProductCard article={article} onToggleFavorite={onToggleFavorite} />

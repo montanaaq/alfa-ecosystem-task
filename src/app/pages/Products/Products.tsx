@@ -1,6 +1,6 @@
 import { type FC, type MouseEvent } from "react";
 
-import { useNavigate, Link } from "react-router";
+import { useNavigate } from "react-router";
 
 import PageLayout from "@/app/layouts/PageLayout";
 
@@ -15,15 +15,8 @@ import { Button } from "@/components/ui/button";
 import { Spinner } from "@/components/ui/spinner";
 import ProductCard from "@/components/ProductCard/ProductCard";
 import SearchField from "@/components/SearchField/SearchField";
+import BreadcrumbNav from "@/components/BreadcrumbNav/BreadcrumbNav";
 import CategorySelector from "@/components/CategorySelector/CategorySelector";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator
-} from "@/components/ui/breadcrumb";
 
 const Products: FC = () => {
   const { visibleArticles, isLoading, error } = useNewsArticles();
@@ -47,19 +40,9 @@ const Products: FC = () => {
 
   return (
     <PageLayout>
-      <Breadcrumb className='mb-6'>
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link to='/'>Home</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Products</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
+      <BreadcrumbNav
+        items={[{ label: "Home", href: "/" }, { label: "Products" }]}
+      />
 
       <div className='mb-6 flex items-center justify-between'>
         <div className='flex items-center gap-3'>

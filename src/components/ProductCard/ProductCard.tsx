@@ -1,6 +1,6 @@
 import { type FC, type MouseEvent } from "react";
 import { useNavigate } from "react-router";
-import { Heart, Trash } from "lucide-react";
+import { Heart, Trash, Settings } from "lucide-react";
 
 import { dateFormatter } from "@/lib/utils";
 import type { IArticle } from "@/shared/types/types";
@@ -33,12 +33,22 @@ const ProductCard: FC<ProductCardProps> = ({
     const encoded = encodeURIComponent(url);
     navigate(`/products/${encoded}`);
   }
+
+  function onEditArticle(e: MouseEvent, url: string) {
+    e.stopPropagation();
+    const encoded = encodeURIComponent(url);
+    navigate(`/products/edit/${encoded}`);
+  }
+
   const isLiked = (url: string) => {
     return Boolean(favorites[url]);
   };
+
+  const canEdit = article.source?.id === "custom";
+
   return (
     <Card
-      className='flex flex-col overflow-hidden cursor-pointer min-h-full'
+      className='flex flex-col overflow-hidden cursor-pointer min-h-full hover:bg-neutral-100 transition-colors duration-100'
       onClick={() => onOpenArticle(article.url)}
     >
       {article.urlToImage && (
@@ -82,6 +92,16 @@ const ProductCard: FC<ProductCardProps> = ({
                 fill={isLiked(article.url) ? "currentColor" : "none"}
               />
             </button>
+            {canEdit && (
+              <button
+                aria-label='Edit'
+                onClick={(e) => onEditArticle(e, article.url)}
+                className='rounded p-1 hover:bg-gray-100'
+                title='Edit'
+              >
+                <Settings className='text-gray-600' size={18} />
+              </button>
+            )}
             {onDelete && (
               <button
                 aria-label='Delete'
