@@ -3,11 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "http://montanaaq.github.io/alfa-ecosystem-task/",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "format": "prettier --write .",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "deploy": "gh-pages -d dist",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -23,6 +25,7 @@
     "clsx": "^2.1.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
+    "gh-pages": "^6.3.0",
     "lucide-react": "^0.554.0",
     "prettier": "^3.6.2",
     "react": "^19.2.0",
