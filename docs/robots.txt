@@ -1,0 +1,18 @@
+# robots.txt for Alfa Ecosystem Task
+
+User-agent: *
+Disallow: /node_modules/
+Disallow: /src/
+Disallow: /routes/
+Disallow: /services/
+Disallow: /ui/
+Disallow: /assets/
+Disallow: /tsconfig*
+Disallow: /vite.config.ts
+Disallow: /frontend-0.0.0.tgz
+
+Allow: /public/
+Allow: /index.html
+Allow: /src/main.tsx
+
+Sitemap: http://localhost:5173/sitemap.xml
