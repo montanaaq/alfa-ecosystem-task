@@ -3,7 +3,7 @@ import { memo, type FC } from "react";
 import { camelCaseFormat } from "@/lib/utils";
 
 import { useNewsStore } from "@/shared/stores/news.store";
-import { CATEGORIES } from "@/shared/constants/categories.const";
+import { CATEGORIES } from "@/shared/constants";
 
 import {
   Select,

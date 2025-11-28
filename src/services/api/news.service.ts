@@ -37,8 +37,27 @@ export async function request<T = unknown>(
   return res.data as T;
 }
 
-export const getTopHeadlines = (): Promise<INews> =>
-  request<INews>("/top-headlines", { params: { country: "us" } });
+export const getTopHeadlines = (params?: {
+  page?: number;
+  pageSize?: number;
+}): Promise<INews> =>
+  request<INews>("/top-headlines", {
+    params: {
+      country: "us",
+      page: params?.page || 1,
+      pageSize: params?.pageSize || 6
+    }
+  });
 
-export const getCategoryHeadlines = (category: string): Promise<INews> =>
-  request<INews>("/top-headlines", { params: { country: "us", category } });
+export const getCategoryHeadlines = (
+  category: string,
+  params?: { page?: number; pageSize?: number }
+): Promise<INews> =>
+  request<INews>("/top-headlines", {
+    params: {
+      country: "us",
+      category,
+      page: params?.page || 1,
+      pageSize: params?.pageSize || 6
+    }
+  });

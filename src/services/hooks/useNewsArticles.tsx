@@ -7,14 +7,21 @@ import { useFiltersStore } from "@/shared/stores/filters.store";
 import { useFavoritesStore } from "@/shared/stores/favorites.store";
 import { useUserArticlesStore } from "@/shared/stores/user-articles.store";
 import type { IArticle } from "@/shared/types/types";
+import { PAGE_SIZE } from "@/shared/constants";
 
 export function useNewsArticles() {
   const category = useNewsStore((s) => s.category);
+  const currentPage = useNewsStore((s) => s.currentPage);
 
-  const { data, isLoading, error } = useNewsQuery(category);
+  const { data, isLoading, error } = useNewsQuery(category, currentPage);
+
   const apiArticles = useMemo<IArticle[]>(() => {
     return data?.articles ?? [];
   }, [data]);
+
+  const totalPages = data?.totalResults
+    ? Math.ceil(data.totalResults / PAGE_SIZE)
+    : 1;
 
   const userArticles = useUserArticlesStore((s) => s.userArticles);
   const removed = useUserArticlesStore((s) => s.removed);
@@ -54,5 +61,5 @@ export function useNewsArticles() {
     category
   ]);
 
-  return { visibleArticles, isLoading, error };
+  return { visibleArticles, isLoading, error, totalPages, currentPage };
 }

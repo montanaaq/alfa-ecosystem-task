@@ -17,10 +17,15 @@ import ProductCard from "@/components/ProductCard/ProductCard";
 import SearchField from "@/components/SearchField/SearchField";
 import BreadcrumbNav from "@/components/BreadcrumbNav/BreadcrumbNav";
 import CategorySelector from "@/components/CategorySelector/CategorySelector";
+import PaginationPanel from "@/components/PaginationPanel/PaginationPanel";
+import { useNewsStore } from "@/shared/stores/news.store";
 
 const Products: FC = () => {
-  const { visibleArticles, isLoading, error } = useNewsArticles();
+  const { visibleArticles, isLoading, error, currentPage, totalPages } =
+    useNewsArticles();
   const navigate = useNavigate();
+
+  const { nextPage, prevPage } = useNewsStore();
 
   const filter = useFiltersStore((s) => s.filter);
   const setFilter = useFiltersStore((s) => s.setFilter);
@@ -37,6 +42,14 @@ const Products: FC = () => {
     e.stopPropagation();
     toggleFavorite(url);
   }
+
+  const handleNextPage = () => {
+    nextPage();
+  };
+
+  const handlePrevPage = () => {
+    prevPage();
+  };
 
   return (
     <PageLayout>
@@ -98,6 +111,18 @@ const Products: FC = () => {
             : "No articles found"}
         </div>
       )}
+      <PaginationPanel
+        onNextPageClick={handleNextPage}
+        onPrevPageClick={handlePrevPage}
+        disable={{
+          left: currentPage === 1,
+          right: currentPage >= totalPages
+        }}
+        nav={{
+          current: currentPage,
+          total: totalPages
+        }}
+      />
     </PageLayout>
   );
 };
