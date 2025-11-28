@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "http://montanaaq.github.io/alfa-ecosystem-task/",
+  "homepage": "https://montanaaq.github.io/alfa-ecosystem-task",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
