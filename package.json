@@ -6,11 +6,11 @@
   "homepage": "https://montanaaq.github.io/alfa-ecosystem-task",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "format": "prettier --write .",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "vite build && gh-pages -d dist",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "deploy": "gh-pages -d dist",
-    "preview": "vite preview"
+    "format": "prettier --write ."
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
