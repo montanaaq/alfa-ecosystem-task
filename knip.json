@@ -1,0 +1,5 @@
+{
+    "$schema": "https://unpkg.com/knip@5/schema.json",
+    "ignore": ["src/components/ui/**"],
+    "ignoreDependencies": ["baseline-browser-mapping", "globals"]
+}

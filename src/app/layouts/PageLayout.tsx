@@ -1,17 +1,17 @@
-import Header from "@/components/Header/Header";
-import { type FC, type ReactNode } from "react";
+import type { FC, ReactNode } from 'react';
+import Header from '@/components/Header/Header';
 
 interface PageLayoutProps {
-  children: ReactNode;
+    children: ReactNode;
 }
 
 const PageLayout: FC<PageLayoutProps> = ({ children }) => {
-  return (
-    <div className='w-full py-6'>
-      <Header pageName='Top headlines' />
-      <main className='mx-auto py-8 container sm:py-4'>{children}</main>
-    </div>
-  );
+    return (
+        <div className="w-full py-6">
+            <Header pageName="Top headlines" />
+            <main className="mx-auto py-8 container sm:py-4">{children}</main>
+        </div>
+    );
 };
 
 export default PageLayout;

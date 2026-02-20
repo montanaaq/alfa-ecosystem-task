@@ -1,45 +1,48 @@
-import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import { create } from 'zustand';
+import { createJSONStorage, persist } from 'zustand/middleware';
+import type { CategoryType } from '../types/types';
 
 interface NewsState {
-  category: string | null;
-  setCategory: (category: string | null) => void;
+    category: CategoryType | null;
+    setCategory: (category: CategoryType | null) => void;
 
-  currentPage: number;
-  setCurrentPage: (page: number) => void;
+    currentPage: number;
+    setCurrentPage: (page: number) => void;
 
-  nextPage: () => void;
-  prevPage: () => void;
+    nextPage: () => void;
+    prevPage: () => void;
 }
 
 export const useNewsStore = create<NewsState>()(
-  persist(
-    (set) => ({
-      category: null,
-      currentPage: 1,
+    persist(
+        set => ({
+            category: null,
+            currentPage: 1,
 
-      setCategory: (category: string | null) => {
-        set({ category, currentPage: 1 });
-      },
+            setCategory: category => {
+                set({ category, currentPage: 1 });
+            },
 
-      setCurrentPage: (currentPage: number) => {
-        set({ currentPage });
-      },
+            setCurrentPage: currentPage => {
+                set({ currentPage });
+            },
 
-      nextPage: () => {
-        set((state) => ({ currentPage: state.currentPage + 1 }));
-      },
+            nextPage: () => {
+                set(state => ({ currentPage: state.currentPage + 1 }));
+            },
 
-      prevPage: () => {
-        set((state) => ({ currentPage: Math.max(1, state.currentPage - 1) }));
-      }
-    }),
-    {
-      name: "news-storage",
-      storage: createJSONStorage(() => localStorage),
-      partialize: (state) => ({
-        category: state.category
-      })
-    }
-  )
+            prevPage: () => {
+                set(state => ({
+                    currentPage: Math.max(1, state.currentPage - 1)
+                }));
+            }
+        }),
+        {
+            name: 'news-storage',
+            storage: createJSONStorage(() => localStorage),
+            partialize: state => ({
+                category: state.category
+            })
+        }
+    )
 );

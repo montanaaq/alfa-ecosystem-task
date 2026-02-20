@@ -1,0 +1,55 @@
+{
+    "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+    "vcs": {
+        "enabled": true,
+        "clientKind": "git",
+        "useIgnoreFile": true
+    },
+    "files": {
+        "ignoreUnknown": true,
+        "includes": ["**", "!!**/index.css", "!!**/hooks", "!!**/ui"]
+    },
+    "formatter": {
+        "enabled": true,
+        "indentStyle": "space",
+        "indentWidth": 4,
+        "lineEnding": "lf"
+    },
+    "javascript": {
+        "formatter": {
+            "quoteStyle": "single",
+            "trailingCommas": "none",
+            "semicolons": "always",
+            "arrowParentheses": "asNeeded"
+        }
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": true,
+            "a11y": {
+                "recommended": true
+            },
+            "complexity": {
+                "recommended": true
+            },
+            "correctness": {
+                "recommended": true
+            },
+            "performance": {
+                "recommended": true
+            },
+            "style": {
+                "recommended": true,
+                "noUnusedTemplateLiteral": "off"
+            },
+            "suspicious": {
+                "recommended": true,
+                "noExplicitAny": "off"
+            }
+        }
+    },
+    "assist": {
+        "enabled": true
+    }
+}
