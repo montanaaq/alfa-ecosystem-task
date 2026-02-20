@@ -26,7 +26,10 @@ const CreateProduct: FC = () => {
         formState: { errors, isSubmitting }
     } = useForm<CreateProductFormData>({
         resolver: zodResolver(createProductSchema),
-        mode: 'onBlur'
+        mode: 'onBlur',
+        defaultValues: {
+            category: 'general'
+        }
     });
 
     const category = getValues('category');

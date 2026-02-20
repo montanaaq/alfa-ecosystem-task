@@ -17,7 +17,7 @@ export function truncateWords(text: string, maxWords: number = 7): string {
     return `${words.slice(0, maxWords).join(' ')}...`;
 }
 
-export function camelCaseFormat(str: string): string {
+export function pascalCaseFormat(str: string): string {
     if (!str) return str;
     return str.charAt(0).toUpperCase() + str.slice(1);
 }

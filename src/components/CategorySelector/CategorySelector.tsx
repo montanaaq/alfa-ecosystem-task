@@ -1,6 +1,6 @@
 import { type FC, memo } from 'react';
 
-import { camelCaseFormat } from '@/lib/utils';
+import { pascalCaseFormat } from '@/lib/utils';
 import { CATEGORIES, CATEGORY_VALUES } from '@/shared/constants';
 import { useNewsStore } from '@/shared/stores/news.store';
 import type { CategoryType } from '@/shared/types/types';
@@ -46,7 +46,7 @@ const CategorySelector: FC<CategorySelectorProps> = memo(
                 <SelectContent>
                     {CATEGORIES.map(c => (
                         <SelectItem key={c.category} value={c.category}>
-                            {camelCaseFormat(c.category)}
+                            {pascalCaseFormat(c.category)}
                         </SelectItem>
                     ))}
                 </SelectContent>
