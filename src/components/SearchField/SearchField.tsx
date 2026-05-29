@@ -14,7 +14,7 @@ const SearchField: FC = memo(() => {
         debouncedSetSearchQuery(e.target.value);
     };
 
-    return ( 
+    return (
         <Input
             placeholder="Search in loaded news"
             onChange={handleInput}
